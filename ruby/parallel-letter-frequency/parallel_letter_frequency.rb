@@ -1,0 +1,3 @@
+class ParallelLetterFrequency
+
+end

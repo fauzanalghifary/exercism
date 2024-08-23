@@ -7,9 +7,9 @@ import (
 
 func IsValidISBN(isbn string) bool {
 	strippedInput := strings.ReplaceAll(isbn, "-", "")
-	validChar := regexp.MustCompile(`^\d-?\d{3}-?\d{5}-?\d$|X$`)
+	validISBN := regexp.MustCompile(`^\d-?\d{3}-?\d{5}-?\d$|X$`)
 
-	if !validChar.MatchString(isbn) {
+	if !validISBN.MatchString(isbn) {
 		return false
 	}
 

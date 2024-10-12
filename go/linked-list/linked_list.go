@@ -1,44 +1,98 @@
 package linkedlist
 
-// Define List and Node types here.
-// Note: The tests expect Node type to include an exported field with name Value to pass.
+type Node struct {
+	Value interface{}
+	next  *Node
+	prev  *Node
+}
+
+type List struct {
+	Head *Node
+	Tail *Node
+}
 
 func NewList(elements ...interface{}) *List {
-	panic("Please implement the NewList function")
+	list := &List{}
+	for _, e := range elements {
+		list.Push(e)
+	}
+	return list
 }
 
 func (n *Node) Next() *Node {
-	panic("Please implement the Next function")
+	return n.next
 }
 
 func (n *Node) Prev() *Node {
-	panic("Please implement the Prev function")
+	return n.prev
 }
 
 func (l *List) Unshift(v interface{}) {
-	panic("Please implement the Unshift function")
+	newNode := &Node{Value: v}
+
+	if l.Head == nil {
+		l.Head = newNode
+		l.Tail = newNode
+	} else {
+		newNode.next = l.Head
+		l.Head.prev = newNode
+		l.Head = newNode
+	}
 }
 
 func (l *List) Push(v interface{}) {
-	panic("Please implement the Push function")
+	newNode := &Node{Value: v}
+
+	if l.Tail == nil {
+		l.Head = newNode
+		l.Tail = newNode
+	} else {
+		newNode.prev = l.Tail
+		l.Tail.next = newNode
+		l.Tail = newNode
+	}
 }
 
 func (l *List) Shift() (interface{}, error) {
-	panic("Please implement the Shift function")
+	val := l.Head.Value
+	if l.Head.next == nil {
+		l.Head = nil
+		l.Tail = nil
+		return val, nil
+	}
+
+	l.Head = l.Head.next
+	l.Head.prev = nil
+
+	return val, nil
 }
 
 func (l *List) Pop() (interface{}, error) {
-	panic("Please implement the Pop function")
+	val := l.Tail.Value
+
+	if l.Tail.prev == nil {
+		l.Head = nil
+		l.Tail = nil
+		return val, nil
+	}
+
+	l.Tail = l.Tail.prev
+	l.Tail.next = nil
+
+	return val, nil
 }
 
 func (l *List) Reverse() {
-	panic("Please implement the Reverse function")
+	for n := l.Head; n != nil; n = n.prev {
+		n.prev, n.next = n.next, n.prev
+	}
+	l.Head, l.Tail = l.Tail, l.Head
 }
 
 func (l *List) First() *Node {
-	panic("Please implement the First function")
+	return l.Head
 }
 
 func (l *List) Last() *Node {
-	panic("Please implement the Last function")
+	return l.Tail
 }

@@ -40,14 +40,20 @@ func Decode(message string, rails int) string {
 	hash := make(map[int]string)
 	index := 0
 	for i := 0; i < rails; i++ {
+		isMiddleRails := i != 0 && i+1 != rails
 		endPoint := index + chunkLength
-		if i != 0 && i+1 != rails {
+		if isMiddleRails {
 			endPoint = index + (chunkLength * 2)
 		}
 
 		if remainder > 0 {
 			endPoint++
 			remainder--
+
+			if isMiddleRails && remainder > rails {
+				endPoint++
+				remainder--
+			}
 		}
 
 		hash[i+1] = message[index:endPoint]
